@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chatbot SQL — Interfaz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="card" role="application" aria-label="Chatbot SQL">
+      <aside class="left">
+        <div class="brand">
+          <div class="logo">DB</div>
+          <div>
+            <div class="title">ChatSQL</div>
+            <div class="subtitle">Asistente de consultas & análisis</div>
+          </div>
+        </div>
+        <div class="desc">
+          Haz preguntas en lenguaje natural. El sistema generará la consulta, ejecutará la DB y te devolverá un análisis claro sin exponer la SQL.
+        </div>
+
+        <div class="controls">
+          <button class="button primary" id="new-chat">🆕 Nueva conversación</button>
+          <button class="button" id="download-log">⬇️ Descargar historial</button>
+          <div class="small-muted">
+            Sesión activa: <span id="session-id" style="color:var(--accent)">--</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="right" role="main">
+        <div class="chat-header">
+          <div>
+            <div class="chat-title">Chatbot SQL</div>
+            <div class="chat-sub">Consulta tu base de datos de forma segura.</div>
+          </div>
+          <div id="status-area" style="display:flex;align-items:center;gap:12px">
+            <div id="loader" style="display:none" class="loader" title="Procesando..."></div>
+            <div id="status-text" class="status">Listo</div>
+          </div>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <div class="input-area">
+          <input id="input-msg" class="input" placeholder="Escribe tu pregunta..." />
+          <button id="send-btn" class="send">Enviar</button>
+          <div id="typing" style="display:none" class="typing">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
