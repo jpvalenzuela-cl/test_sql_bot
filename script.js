@@ -52,35 +52,26 @@
     input.disabled = busy;
   }
 
-  async function sendQuestion(text) {
-    if (!text) return;
-    addMessage("user", text);
-    setStatus("Procesando...", true);
-    history.push({ role: "user", text, time: new Date().toISOString() });
-
+  async function sendQuestion() {
+    const input = document.getElementById("pregunta");
+    const pregunta = input.value.trim();
+    if (!pregunta) return;
+  
+    // Mostrar mensaje del usuario
+    agregarMensaje("Usuario", pregunta);
+    input.value = "";
+  
     try {
-      const resp = await fetch(API_URL, {
+      const response = await fetch("https://tuwebhook.n8n.cloud/webhook/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pregunta: text }),
+        body: JSON.stringify({ pregunta }),
       });
-
-      if (!resp.ok) {
-        const msg = await resp.text();
-        addMessage("bot", "⚠️ Error del servidor: " + msg);
-        setStatus("Error", false);
-        return;
-      }
-
-      const data = await resp.json();
-      const answer = data.respuesta || data.result || "No se obtuvo respuesta";
-      addMessage("bot", answer);
-      history.push({ role: "bot", text: answer, time: new Date().toISOString() });
-      setStatus("Listo", false);
-    } catch (err) {
-      console.error(err);
-      addMessage("bot", "⚠️ Error de conexión con el servidor.");
-      setStatus("Error", false);
+  
+      const data = await response.json();
+      agregarMensaje("Bot", data.respuesta || "Sin respuesta del servidor");
+    } catch (error) {
+      agregarMensaje("Bot", "Error al conectar con el servidor.");
     }
   }
 
@@ -122,3 +113,4 @@
   addMessage("bot", "Hola 👋 — Soy tu asistente SQL. Haz una pregunta sobre la base de datos.");
   setStatus("Listo", false);
 })();
+
